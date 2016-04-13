@@ -4,7 +4,35 @@ var x = canvas.width/2;
 var y = canvas.height-30;
 var dx = 2;
 var dy = -2;
-var ballRadius = 10;
+var ballRadius = 15;
+
+var paddleHeight = 15;
+var paddleWidth = 140;
+var paddleX = (canvas.width - paddleWidth)/2;
+
+var rightPressed = false;
+var leftPressed = false;
+
+document.addEventListener("keydown", keyDownHandler, false);
+document.addEventListener("keyup", keyUpHandler, false);
+
+function keyDownHandler(event){
+	if(event.keyCode == 39){
+		rightPressed = true;
+	}
+	else if(event.keyCode == 37){
+		leftPressed = true;
+	}
+}
+
+function keyUpHandler(event){
+	if(event.keyCode == 39){
+		rightPressed = false;
+	}
+	else if(event.keyCode == 37){
+		leftPressed = false;
+	}
+}
 
 function drawBall(){
 	ctx.beginPath();
@@ -14,9 +42,18 @@ function drawBall(){
 	ctx.closePath();
 }
 
-function draw(){
+function drawPaddle(){
+	ctx.beginPath();
+	ctx.rect(paddleX, canvas.height - paddleHeight, paddleWidth, paddleHeight);
+	ctx.fillStyle = "#b48484";
+	ctx.fill();
+	ctx.closePath();
+}
+
+function drawAll(){
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
 	drawBall();
+	drawPaddle();
 	if(x + dx > canvas.width - ballRadius || x + dx < ballRadius){
 		dx = -dx;
 	};
@@ -25,8 +62,17 @@ function draw(){
 	};
 	x += dx;
 	y += dy;
+
+	if(rightPressed && paddleX < canvas.width - paddleWidth){
+		paddleX += 9;
+	}
+	else if(leftPressed && paddleX > 0){
+		paddleX -= 9;
+	}
 }
-setInterval(draw, 10);
+
+setInterval(drawAll, 10);
+
 
 // ctx.beginPath();
 // ctx.rect(20, 40, 50, 50);
