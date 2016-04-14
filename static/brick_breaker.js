@@ -174,8 +174,10 @@ function drawAll(){
 	else if(leftPressed && paddleX > 0){
 		paddleX -= 9;
 	}
-	requestAnimationFrame(drawAll);
+	// requestAnimationFrame(drawAll); //this along with calling drawAll() below is another way to display the moving ball on the screen
 }
 
-drawAll();
+// drawAll();
+
+setInterval(drawAll, 5)
 
